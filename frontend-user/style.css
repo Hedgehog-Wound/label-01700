@@ -1,0 +1,351 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.game-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 主布局：左侧游戏区域，右侧操作记录 */
+.main-layout {
+    display: flex;
+    gap: 20px;
+}
+
+.game-area {
+    flex: 1;
+    min-width: 0;
+}
+
+.log-area {
+    width: 300px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    border: 2px solid #dee2e6;
+}
+
+.log-area h2 {
+    color: #495057;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 10px;
+}
+
+.game-info {
+    position: relative;
+    min-height: 600px;
+    margin-bottom: 30px;
+}
+
+.player {
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+}
+
+.player h3 {
+    color: #495057;
+    margin-bottom: 10px;
+}
+
+.card-count {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+.cards-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    min-height: 60px;
+}
+
+.card {
+    width: 50px;
+    height: 70px;
+    background: white;
+    border: 2px solid #333;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card.selected {
+    border-color: #ff6b6b;
+    background: #ffe0e0;
+    transform: translateY(-10px);
+}
+
+.card.red {
+    color: #dc3545;
+}
+
+.card.black {
+    color: #212529;
+}
+
+.card.small {
+    width: 35px;
+    height: 50px;
+    font-size: 10px;
+}
+
+.player-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#player-left {
+    grid-column: 1;
+}
+
+#player-top {
+    grid-column: 2;
+    text-align: center;
+}
+
+.center-area {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    padding: 20px;
+    background: #e9ecef;
+    border-radius: 10px;
+}
+
+.center-area h3 {
+    margin-bottom: 10px;
+    color: #495057;
+}
+
+#player-self {
+    margin-top: 20px;
+}
+
+#player-self .cards-display {
+    min-height: 100px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#cheat-quick-buttons {
+    display: flex;
+    gap: 8px;
+    margin-left: 10px;
+}
+
+.btn {
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-warning {
+    background: #ffc107;
+    color: #212529;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+/* 作弊询问对话框 */
+.cheat-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 400px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.modal-content p {
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.cheat-panel {
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.cheat-panel h3 {
+    color: #856404;
+    margin-bottom: 15px;
+}
+
+.cheat-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.cheat-btn {
+    padding: 10px 20px;
+    background: #ffc107;
+    color: #856404;
+    border: 2px solid #ffc107;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.cheat-btn:hover {
+    background: #ffca2c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.message-area {
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.message-area .message {
+    margin: 8px 0;
+    padding: 10px;
+    background: #e9ecef;
+    border-radius: 6px;
+    color: #495057;
+    font-size: 14px;
+    line-height: 1.5;
+    border-left: 3px solid #007bff;
+}
+
+.message-area .message:last-child {
+    border-left-color: #28a745;
+    background: #d4edda;
+}
+
+@media (max-width: 1200px) {
+    .main-layout {
+        flex-direction: column;
+    }
+    
+    .log-area {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .player-info {
+        grid-template-columns: 1fr;
+    }
+    
+    .card {
+        width: 40px;
+        height: 56px;
+        font-size: 10px;
+    }
+    
+    .main-layout {
+        flex-direction: column;
+    }
+}
