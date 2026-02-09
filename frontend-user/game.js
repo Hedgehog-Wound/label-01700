@@ -337,10 +337,17 @@ function displayCards(playerId, cards) {
             cardElement.classList.add('black');
         }
         
-        // 抢地主阶段：所有牌显示背面
+        // 抢地主阶段：自己的牌显示正面（但不能点击），其他玩家的牌显示背面
         if (gameState.landlordPhase) {
-            cardElement.textContent = '🂠';
-            cardElement.classList.add('small');
+            if (playerId === 'self') {
+                // 自己的牌显示正面，但不能点击
+                cardElement.textContent = card.display;
+                cardElement.classList.add('small'); // 稍微小一点表示不能操作
+            } else {
+                // AI玩家的牌显示背面
+                cardElement.textContent = '🂠';
+                cardElement.classList.add('small');
+            }
         } else {
             // 抢地主完成后
             if (playerId === 'self') {
@@ -358,10 +365,19 @@ function displayCards(playerId, cards) {
         }
         
         // 作弊模式：查看所有手牌 - 显示所有玩家的牌
-        if (gameState.cheatType === 'view_all' && !gameState.landlordPhase) {
-            cardElement.textContent = card.display;
-            if (playerId !== 'self') {
-                cardElement.classList.remove('small');
+        if (gameState.cheatType === 'view_all') {
+            if (gameState.landlordPhase) {
+                // 抢地主阶段也显示所有玩家的牌
+                cardElement.textContent = card.display;
+                if (playerId !== 'self') {
+                    cardElement.classList.remove('small');
+                }
+            } else {
+                // 抢地主完成后显示所有玩家的牌
+                cardElement.textContent = card.display;
+                if (playerId !== 'self') {
+                    cardElement.classList.remove('small');
+                }
             }
         }
         
