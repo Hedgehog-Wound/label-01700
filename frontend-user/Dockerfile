@@ -6,7 +6,7 @@ WORKDIR /usr/share/nginx/html
 
 COPY index.html .
 COPY style.css .
-COPY game.js .
+COPY js/ ./js/
 
 # 生产阶段（支持ARM和X86）
 FROM nginx:alpine

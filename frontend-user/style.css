@@ -11,6 +11,69 @@ body {
     padding: 20px;
 }
 
+/* ========== 主菜单样式 ========== */
+.main-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.menu-content {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 60px 80px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    min-width: 400px;
+}
+
+.menu-title {
+    font-size: 3.5em;
+    color: #333;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.menu-btn {
+    padding: 18px 40px;
+    font-size: 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.menu-btn.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.menu-btn.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+/* ========== 游戏容器样式 ========== */
 .game-container {
     max-width: 1600px;
     margin: 0 auto;
@@ -20,15 +83,60 @@ body {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
-h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 30px;
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.game-header h1 {
+    margin: 0;
     font-size: 2.5em;
+    color: #333;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* 主布局：左侧游戏区域，右侧操作记录 */
+.btn-back {
+    padding: 10px 20px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.btn-back:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+/* ========== 流程提示样式 ========== */
+.game-status {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.status-message {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+/* ========== 主布局 ========== */
 .main-layout {
     display: flex;
     gap: 20px;
@@ -67,52 +175,64 @@ h1 {
     border-radius: 10px;
     padding: 15px;
     margin: 10px;
+    transition: all 0.3s;
+}
+
+.player:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .player h3 {
     color: #495057;
     margin-bottom: 10px;
+    font-size: 1.2em;
 }
 
 .card-count {
-    font-size: 14px;
+    font-size: 16px;
     color: #6c757d;
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
 .cards-display {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
-    min-height: 60px;
+    gap: 8px;
+    min-height: 80px;
 }
 
+/* ========== 牌样式（增大） ========== */
 .card {
-    width: 50px;
-    height: 70px;
+    width: 70px;
+    height: 98px;
     background: white;
     border: 2px solid #333;
-    border-radius: 8px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 12px;
+    font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    position: relative;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-8px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    z-index: 10;
 }
 
 .card.selected {
     border-color: #ff6b6b;
     background: #ffe0e0;
-    transform: translateY(-10px);
+    transform: translateY(-15px);
+    box-shadow: 0 8px 16px rgba(255, 107, 107, 0.4);
+    z-index: 20;
 }
 
 .card.red {
@@ -124,9 +244,9 @@ h1 {
 }
 
 .card.small {
-    width: 35px;
-    height: 50px;
-    font-size: 10px;
+    width: 50px;
+    height: 70px;
+    font-size: 14px;
 }
 
 .player-info {
@@ -157,6 +277,7 @@ h1 {
 .center-area h3 {
     margin-bottom: 10px;
     color: #495057;
+    font-size: 1.1em;
 }
 
 #player-self {
@@ -164,7 +285,7 @@ h1 {
 }
 
 #player-self .cards-display {
-    min-height: 100px;
+    min-height: 120px;
 }
 
 .controls {
@@ -183,10 +304,10 @@ h1 {
 }
 
 .btn {
-    padding: 12px 24px;
-    font-size: 16px;
+    padding: 14px 28px;
+    font-size: 18px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s;
     font-weight: bold;
@@ -223,44 +344,82 @@ h1 {
     color: white;
 }
 
-/* 作弊询问对话框 */
-.cheat-modal {
+/* ========== 对话框样式 ========== */
+.cheat-modal,
+.rules-modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 3000;
+    backdrop-filter: blur(4px);
 }
 
 .modal-content {
     background: white;
     border-radius: 15px;
-    padding: 30px;
-    max-width: 400px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .modal-content h3 {
     color: #333;
-    margin-bottom: 15px;
-    font-size: 1.5em;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    text-align: center;
 }
 
 .modal-content p {
     color: #666;
-    margin-bottom: 20px;
-    line-height: 1.6;
+    margin-bottom: 25px;
+    line-height: 1.8;
+    font-size: 16px;
 }
 
 .modal-buttons {
     display: flex;
+    flex-direction: column;
     gap: 15px;
-    justify-content: center;
+}
+
+.rules-content {
+    margin-bottom: 25px;
+}
+
+.rules-content h4 {
+    color: #333;
+    margin: 15px 0 10px 0;
+    font-size: 1.2em;
+}
+
+.rules-content ul {
+    margin-left: 20px;
+    color: #666;
+    line-height: 1.8;
+}
+
+.rules-content li {
+    margin-bottom: 8px;
 }
 
 .cheat-panel {
@@ -310,20 +469,34 @@ h1 {
 
 .message-area .message {
     margin: 8px 0;
-    padding: 10px;
+    padding: 12px;
     background: #e9ecef;
     border-radius: 6px;
     color: #495057;
     font-size: 14px;
-    line-height: 1.5;
-    border-left: 3px solid #007bff;
+    line-height: 1.6;
+    border-left: 4px solid #007bff;
+    animation: messageSlideIn 0.3s ease-out;
+}
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .message-area .message:last-child {
     border-left-color: #28a745;
     background: #d4edda;
+    font-weight: bold;
 }
 
+/* ========== 响应式设计 ========== */
 @media (max-width: 1200px) {
     .main-layout {
         flex-direction: column;
@@ -335,17 +508,36 @@ h1 {
 }
 
 @media (max-width: 768px) {
+    .menu-content {
+        padding: 40px 30px;
+        min-width: 300px;
+    }
+    
+    .menu-title {
+        font-size: 2.5em;
+    }
+    
     .player-info {
         grid-template-columns: 1fr;
     }
     
     .card {
+        width: 55px;
+        height: 77px;
+        font-size: 14px;
+    }
+    
+    .card.small {
         width: 40px;
         height: 56px;
-        font-size: 10px;
+        font-size: 12px;
     }
     
     .main-layout {
         flex-direction: column;
+    }
+    
+    .game-header h1 {
+        font-size: 1.8em;
     }
 }

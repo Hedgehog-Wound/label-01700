@@ -1,0 +1,17 @@
+{
+  "name": "frontend-user",
+  "version": "1.0.0",
+  "description": "斗地主小游戏 - 用户端",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "echo \"Linting not configured\""
+  },
+  "keywords": [
+    "game",
+    "poker",
+    "landlord"
+  ],
+  "author": "",
+  "license": "MIT"
+}

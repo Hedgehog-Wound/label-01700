@@ -42,11 +42,13 @@ docker pull --platform linux/arm64 nginx:alpine
 
 ### Frontend-User (用户端)
 - **端口**: 8081
-- **技术栈**: HTML + CSS + JavaScript
+- **技术栈**: HTML5 + CSS3 + JavaScript (ES6 Modules)
 - **功能**:
   - 斗地主游戏主界面
-  - 发牌、出牌功能
-  - 作弊功能面板
+  - 发牌、抢地主、出牌功能
+  - 作弊功能（查看所有手牌、获得最好手牌）
+  - 主菜单界面
+  - 游戏规则说明
 
 ## 测试账号
 
@@ -67,28 +69,45 @@ docker pull --platform linux/arm64 nginx:alpine
 
 ## 项目介绍
 
-这是一个斗地主小游戏项目，包含完整的游戏功能和作弊功能。
+这是一个完整的斗地主小游戏项目，采用模块化架构设计，代码结构清晰，易于维护。
 
 ### 主要特性
 
 1. **完整的游戏功能**
-   - 发牌系统
-   - 选牌和出牌
-   - 牌型验证
+   - 发牌系统（3个玩家，每人17张，3张底牌）
+   - 抢地主功能（轮流叫分）
+   - 出牌系统（单张、对子、三张、炸弹等牌型）
+   - AI自动出牌
    - 游戏状态管理
 
 2. **作弊功能**
    - 查看所有玩家手牌
    - 获得最好手牌
-   - 清空对手手牌
-   - 添加炸弹
-   - 重置游戏
+   - 开局时选择作弊方式，选择后不可更改
+
+3. **用户体验优化**
+   - 主菜单界面
+   - 流程提示（显示当前游戏状态）
+   - 操作记录（保留所有历史记录）
+   - 美观的UI设计
+   - 增大的牌面显示
+
+4. **代码架构**
+   - 模块化设计（ES6 Modules）
+   - 代码分离（配置、卡片、游戏逻辑、AI、UI等）
+   - 完善的注释
+   - 错误处理和验证
+
+5. **Docker 容器化**
+   - 支持 ARM 和 X86 架构
+   - 一键启动所有服务
 
 ### 技术栈
 
-- **前端**: HTML5, CSS3, JavaScript (ES6+)
+- **前端**: HTML5, CSS3, JavaScript (ES6 Modules)
 - **容器化**: Docker, Docker Compose
 - **Web服务器**: Nginx
+- **代码组织**: ES6 Modules
 
 ### 项目结构
 
@@ -97,20 +116,43 @@ docker pull --platform linux/arm64 nginx:alpine
 ├── frontend-user/        # 用户端
 │   ├── Dockerfile
 │   ├── nginx.conf
+│   ├── package.json
 │   ├── index.html
 │   ├── style.css
-│   └── game.js
+│   └── js/               # JavaScript模块
+│       ├── main.js       # 主入口
+│       ├── config.js     # 配置常量
+│       ├── card.js       # 卡片相关功能
+│       ├── gameState.js  # 游戏状态管理
+│       ├── cardValidator.js # 牌型验证
+│       ├── ai.js         # AI逻辑
+│       ├── gameLogic.js  # 游戏核心逻辑
+│       ├── ui.js         # UI显示
+│       └── tests/        # 测试文件
+│           └── card.test.js
 ├── docker-compose.yml    # Docker Compose 配置
 ├── .gitignore           # Git 忽略文件
 └── README.md            # 项目说明文档
 ```
 
+### 代码模块说明
+
+- **config.js**: 游戏配置常量（牌的定义、游戏规则等）
+- **card.js**: 卡片相关功能（创建牌堆、洗牌、排序、验证唯一性）
+- **gameState.js**: 游戏状态管理（创建、重置状态）
+- **cardValidator.js**: 牌型验证（验证牌型、判断能否压过）
+- **ai.js**: AI玩家逻辑（AI出牌、AI叫分）
+- **gameLogic.js**: 游戏核心逻辑（发牌、抢地主、出牌等）
+- **ui.js**: UI显示和交互（显示手牌、更新界面、显示消息）
+- **main.js**: 主入口（初始化菜单、绑定事件）
+
 ### 开发说明
 
-Dockerfile 使用了 `nginx:alpine` 基础镜像，该镜像支持 ARM（Apple Silicon）和 X86 架构，可以在不同平台上正常运行。
+所有 Dockerfile 都使用了跨平台支持的基础镜像（`nginx:alpine`），该镜像支持 ARM（Apple Silicon）和 X86 架构，可以在不同平台上正常运行。
 
 ### 注意事项
 
 - 确保 Docker 已正确安装并运行
 - 首次运行需要构建镜像，可能需要一些时间
 - 如果端口被占用，请修改 docker-compose.yml 中的端口映射
+- 游戏使用ES6模块，需要现代浏览器支持
