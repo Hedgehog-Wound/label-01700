@@ -31,8 +31,16 @@ export class GameController {
      * 发牌
      */
     dealCards() {
-        if (this.gameState.gameStarted) {
-            showMessage('游戏已开始，请先重置游戏');
+        // 如果游戏已结束（存在"再来一局"按钮），自动重置游戏
+        const newGameBtn = document.getElementById('new-game-btn');
+        if (newGameBtn) {
+            newGameBtn.remove();
+            this.resetGame();
+        }
+        
+        // 如果游戏正在进行中（未结束），提示用户
+        if (this.gameState.gameStarted && !newGameBtn) {
+            showMessage('游戏已开始，请先完成当前游戏或点击"再来一局"');
             return;
         }
         
