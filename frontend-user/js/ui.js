@@ -61,42 +61,56 @@ export function displayCards(playerId, cards, gameState, onCardClick) {
     cards.forEach((card, index) => {
         const cardElement = document.createElement('div');
         cardElement.className = 'card';
-        if (card.isRed) {
-            cardElement.classList.add('red');
-        } else {
-            cardElement.classList.add('black');
-        }
         
-        // 抢地主阶段：自己的牌显示正面（但不能点击），其他玩家的牌显示背面
+        // 判断是否显示牌背
+        let showBack = false;
+        
         if (gameState.landlordPhase) {
-            if (playerId === 'self') {
-                cardElement.textContent = card.display;
-                cardElement.classList.add('small');
-            } else {
-                cardElement.textContent = '🂠';
-                cardElement.classList.add('small');
+            if (playerId !== 'self') {
+                showBack = true;
             }
         } else {
-            // 抢地主完成后
-            if (playerId === 'self') {
-                cardElement.textContent = card.display;
+            if (playerId !== 'self') {
+                showBack = true;
+            }
+        }
+        
+        // 作弊模式：查看所有手牌
+        if (gameState.cheatType === 'view_all') {
+            showBack = false;
+        }
+        
+        if (showBack) {
+            // 显示牌背
+            cardElement.classList.add('small');
+            cardElement.textContent = '';
+        } else {
+            // 显示牌面 - 添加颜色样式
+            if (card.rank === '小王') {
+                cardElement.classList.add('joker-small');
+            } else if (card.rank === '大王') {
+                cardElement.classList.add('joker-big');
+            } else if (card.isRed) {
+                cardElement.classList.add('red');
+            } else {
+                cardElement.classList.add('black');
+            }
+            cardElement.textContent = card.display;
+            
+            // 其他玩家的牌（作弊模式下可见）用小尺寸
+            if (playerId !== 'self') {
+                cardElement.classList.add('small');
+                cardElement.classList.add('face-up');
+            }
+            
+            // 自己的牌可以点击选择
+            if (playerId === 'self' && !gameState.landlordPhase) {
                 if (onCardClick) {
                     cardElement.addEventListener('click', () => onCardClick(index));
                 }
                 if (gameState.selectedCards.includes(index)) {
                     cardElement.classList.add('selected');
                 }
-            } else {
-                cardElement.textContent = '🂠';
-                cardElement.classList.add('small');
-            }
-        }
-        
-        // 作弊模式：查看所有手牌
-        if (gameState.cheatType === 'view_all') {
-            cardElement.textContent = card.display;
-            if (playerId !== 'self') {
-                cardElement.classList.remove('small');
             }
         }
         
@@ -120,7 +134,7 @@ export function displayBottomCards(bottomCards, gameState) {
         for (let i = 0; i < bottomCards.length; i++) {
             const cardElement = document.createElement('div');
             cardElement.className = 'card small';
-            cardElement.textContent = '🂠';
+            cardElement.textContent = '';
             container.appendChild(cardElement);
         }
     } else if (gameState.landlord) {
@@ -128,7 +142,13 @@ export function displayBottomCards(bottomCards, gameState) {
         bottomCards.forEach(card => {
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
-            if (card.isRed) {
+            
+            // 添加大小王特殊样式
+            if (card.rank === '小王') {
+                cardElement.classList.add('joker-small');
+            } else if (card.rank === '大王') {
+                cardElement.classList.add('joker-big');
+            } else if (card.isRed) {
                 cardElement.classList.add('red');
             } else {
                 cardElement.classList.add('black');
@@ -152,7 +172,13 @@ export function displayPlayedCards(playedCards) {
     playedCards.forEach(card => {
         const cardElement = document.createElement('div');
         cardElement.className = 'card';
-        if (card.isRed) {
+        
+        // 添加大小王特殊样式
+        if (card.rank === '小王') {
+            cardElement.classList.add('joker-small');
+        } else if (card.rank === '大王') {
+            cardElement.classList.add('joker-big');
+        } else if (card.isRed) {
             cardElement.classList.add('red');
         } else {
             cardElement.classList.add('black');
@@ -184,12 +210,19 @@ export function updateCardCounts(players, gameState) {
         
         const h3 = playerElement.querySelector('h3');
         if (h3) {
+            // 移除旧的地主标识
+            const baseName = h3.textContent.replace(' 👑地主', '').replace(' [地主]', '');
+            
             if (gameState.landlord === playerId) {
-                h3.textContent = h3.textContent.replace(' [地主]', '') + ' [地主]';
-                playerElement.style.border = '3px solid #ff6b6b';
+                h3.textContent = baseName + ' 👑地主';
+                playerElement.style.border = '2px solid #f59e0b';
+                playerElement.style.background = 'linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%)';
+                playerElement.style.boxShadow = '0 0 20px rgba(245, 158, 11, 0.2)';
             } else {
-                h3.textContent = h3.textContent.replace(' [地主]', '');
+                h3.textContent = baseName;
                 playerElement.style.border = '';
+                playerElement.style.background = '';
+                playerElement.style.boxShadow = '';
             }
         }
     });
