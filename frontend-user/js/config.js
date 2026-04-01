@@ -13,6 +13,12 @@ export const CONFIG = {
     CARDS_PER_PLAYER: 17, // 每人牌数
     BOTTOM_CARDS: 3,      // 底牌数
     
+    // 剩余牌数提醒阈值配置
+    CARD_COUNT_WARNING: {
+        DANGER: 3,        // 危险阈值 - 小于等于该值触发紧急提醒
+        WARNING: 5        // 警告阈值 - 小于等于该值触发一般提醒
+    },
+    
     // 牌值映射
     CARD_VALUES: {
         '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
