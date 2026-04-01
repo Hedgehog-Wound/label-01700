@@ -19,6 +19,20 @@ export function getPlayerName(playerId) {
 }
 
 /**
+ * 获取剩余牌数提醒级别
+ * @param {number} cardCount - 剩余牌数
+ * @returns {string} 提醒级别：'danger' | 'warning' | 'normal'
+ */
+export function getCardCountWarningLevel(cardCount) {
+    if (cardCount <= CONFIG.CARD_COUNT_WARNING.DANGER) {
+        return 'danger';
+    } else if (cardCount <= CONFIG.CARD_COUNT_WARNING.WARNING) {
+        return 'warning';
+    }
+    return 'normal';
+}
+
+/**
  * 更新状态提示
  * @param {string} message - 提示消息
  */
@@ -189,7 +203,7 @@ export function displayPlayedCards(playedCards) {
 }
 
 /**
- * 更新手牌数量
+ * 更新手牌数量并添加高亮提醒
  * @param {Object} players - 玩家对象
  * @param {Object} gameState - 游戏状态
  */
@@ -198,9 +212,32 @@ export function updateCardCounts(players, gameState) {
     const countTop = document.getElementById('count-top');
     const countSelf = document.getElementById('count-self');
     
-    if (countLeft) countLeft.textContent = players.left.length;
-    if (countTop) countTop.textContent = players.top.length;
-    if (countSelf) countSelf.textContent = players.self.length;
+    // 更新牌数并添加高亮样式
+    const countElements = {
+        'left': countLeft,
+        'top': countTop,
+        'self': countSelf
+    };
+    
+    Object.keys(countElements).forEach(playerId => {
+        const element = countElements[playerId];
+        if (!element) return;
+        
+        const cardCount = players[playerId].length;
+        element.textContent = cardCount;
+        
+        // 移除旧的提醒样式类
+        element.classList.remove('card-count-danger', 'card-count-warning');
+        element.parentElement.classList.remove('card-count-danger', 'card-count-warning');
+        
+        // 添加提醒样式
+        const warningLevel = getCardCountWarningLevel(cardCount);
+        if (warningLevel !== 'normal' && gameState.gameStarted && !gameState.landlordPhase) {
+            const warningClass = `card-count-${warningLevel}`;
+            element.classList.add(warningClass);
+            element.parentElement.classList.add(warningClass);
+        }
+    });
     
     // 显示地主标识
     const playersList = ['left', 'top', 'self'];

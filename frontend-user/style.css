@@ -350,11 +350,89 @@ body::before {
     padding: 8px 14px;
     border-radius: 10px;
     display: inline-block;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-count span {
     color: #6366f1;
     font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 剩余牌数危险提醒样式 (<=3张) */
+.card-count-danger.card-count {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    border: 2px solid #ef4444;
+    animation: dangerPulse 0.8s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}
+
+.card-count-danger.card-count span {
+    color: #dc2626;
+    font-size: 18px;
+    font-weight: 900;
+    animation: dangerBounce 0.6s ease-in-out infinite;
+    text-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+}
+
+/* 剩余牌数警告提醒样式 (<=5张) */
+.card-count-warning.card-count {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border: 2px solid #f59e0b;
+    animation: warningPulse 1.2s ease-in-out infinite;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+}
+
+.card-count-warning.card-count span {
+    color: #d97706;
+    font-size: 16px;
+    font-weight: 800;
+    animation: warningShake 2s ease-in-out infinite;
+}
+
+/* 危险脉冲动画 */
+@keyframes dangerPulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 35px rgba(239, 68, 68, 0.6);
+        transform: scale(1.02);
+    }
+}
+
+/* 危险数字弹跳动画 */
+@keyframes dangerBounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+/* 警告脉冲动画 */
+@keyframes warningPulse {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(245, 158, 11, 0.5);
+    }
+}
+
+/* 警告数字轻微晃动动画 */
+@keyframes warningShake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-1px);
+    }
+    75% {
+        transform: translateX(1px);
+    }
 }
 
 .cards-display {
