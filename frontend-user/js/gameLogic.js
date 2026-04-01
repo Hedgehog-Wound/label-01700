@@ -9,6 +9,21 @@ import { aiPlay as aiPlayCards, aiBid } from './ai.js';
 import { updateDisplay, showMessage, updateStatusMessage, getPlayerName } from './ui.js';
 
 /**
+ * 获取剩余牌数的警告级别
+ * @param {number} cardCount - 剩余牌数
+ * @returns {string} 警告级别：'danger' | 'warning' | 'normal'
+ */
+export function getCardCountWarningLevel(cardCount) {
+    if (cardCount <= CONFIG.CARD_COUNT_WARNING.DANGER) {
+        return 'danger';
+    }
+    if (cardCount <= CONFIG.CARD_COUNT_WARNING.WARNING) {
+        return 'warning';
+    }
+    return 'normal';
+}
+
+/**
  * 游戏逻辑控制器
  */
 export class GameController {

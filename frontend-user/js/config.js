@@ -20,5 +20,11 @@ export const CONFIG = {
     },
     
     // 花色排序（同点数时）
-    SUIT_ORDER: { '♥': 4, '♦': 3, '♠': 2, '♣': 1 }
+    SUIT_ORDER: { '♥': 4, '♦': 3, '♠': 2, '♣': 1 },
+    
+    // 剩余牌数高亮提醒阈值
+    CARD_COUNT_WARNING: {
+        DANGER: 2,    // 危险阈值 - 强烈提醒
+        WARNING: 5    // 警告阈值 - 普通提醒
+    }
 };
