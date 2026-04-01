@@ -3,6 +3,7 @@
  */
 import { CONFIG } from './config.js';
 import { validateCardsUnique } from './card.js';
+import { getCardCountWarningLevel } from './gameLogic.js';
 
 /**
  * 获取玩家显示名称
@@ -189,6 +190,25 @@ export function displayPlayedCards(playedCards) {
 }
 
 /**
+ * 应用牌数警告样式
+ * @param {HTMLElement} countElement - 牌数元素
+ * @param {HTMLElement} cardCountContainer - 牌数容器元素
+ * @param {string} warningLevel - 警告级别
+ */
+function applyCardCountWarningStyle(countElement, cardCountContainer, warningLevel) {
+    countElement.classList.remove('count-danger', 'count-warning');
+    cardCountContainer.classList.remove('card-count-danger', 'card-count-warning');
+    
+    if (warningLevel === 'danger') {
+        countElement.classList.add('count-danger');
+        cardCountContainer.classList.add('card-count-danger');
+    } else if (warningLevel === 'warning') {
+        countElement.classList.add('count-warning');
+        cardCountContainer.classList.add('card-count-warning');
+    }
+}
+
+/**
  * 更新手牌数量
  * @param {Object} players - 玩家对象
  * @param {Object} gameState - 游戏状态
@@ -198,9 +218,21 @@ export function updateCardCounts(players, gameState) {
     const countTop = document.getElementById('count-top');
     const countSelf = document.getElementById('count-self');
     
-    if (countLeft) countLeft.textContent = players.left.length;
-    if (countTop) countTop.textContent = players.top.length;
-    if (countSelf) countSelf.textContent = players.self.length;
+    if (countLeft) {
+        countLeft.textContent = players.left.length;
+        const warningLevel = getCardCountWarningLevel(players.left.length);
+        applyCardCountWarningStyle(countLeft, countLeft.parentElement, warningLevel);
+    }
+    if (countTop) {
+        countTop.textContent = players.top.length;
+        const warningLevel = getCardCountWarningLevel(players.top.length);
+        applyCardCountWarningStyle(countTop, countTop.parentElement, warningLevel);
+    }
+    if (countSelf) {
+        countSelf.textContent = players.self.length;
+        const warningLevel = getCardCountWarningLevel(players.self.length);
+        applyCardCountWarningStyle(countSelf, countSelf.parentElement, warningLevel);
+    }
     
     // 显示地主标识
     const playersList = ['left', 'top', 'self'];
