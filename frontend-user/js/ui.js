@@ -189,6 +189,22 @@ export function displayPlayedCards(playedCards) {
 }
 
 /**
+ * 获取牌数高亮状态
+ * @param {number} count - 剩余牌数
+ * @param {Object} config - 配置对象
+ * @returns {string} 高亮状态类名
+ */
+function getCardCountHighlightClass(count, config) {
+    if (count <= config.CARD_COUNT_DANGER) {
+        return 'danger';
+    }
+    if (count <= config.CARD_COUNT_WARNING) {
+        return 'warning';
+    }
+    return '';
+}
+
+/**
  * 更新手牌数量
  * @param {Object} players - 玩家对象
  * @param {Object} gameState - 游戏状态
@@ -202,11 +218,24 @@ export function updateCardCounts(players, gameState) {
     if (countTop) countTop.textContent = players.top.length;
     if (countSelf) countSelf.textContent = players.self.length;
     
-    // 显示地主标识
+    // 更新牌数高亮状态
     const playersList = ['left', 'top', 'self'];
     playersList.forEach(playerId => {
         const playerElement = document.getElementById(`player-${playerId}`);
         if (!playerElement) return;
+        
+        const cardCountElement = playerElement.querySelector('.card-count');
+        if (cardCountElement) {
+            // 移除旧的高亮类
+            cardCountElement.classList.remove('warning', 'danger');
+            
+            // 添加新的高亮类
+            const count = players[playerId].length;
+            const highlightClass = getCardCountHighlightClass(count, CONFIG);
+            if (highlightClass) {
+                cardCountElement.classList.add(highlightClass);
+            }
+        }
         
         const h3 = playerElement.querySelector('h3');
         if (h3) {
