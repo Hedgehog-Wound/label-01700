@@ -357,6 +357,38 @@ body::before {
     font-weight: 700;
 }
 
+.card-count.warning span {
+    color: #f59e0b;
+    animation: pulseWarning 1.5s ease-in-out infinite;
+}
+
+.card-count.danger span {
+    color: #ef4444;
+    animation: pulseDanger 0.8s ease-in-out infinite;
+}
+
+.card-count.warning {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 2px solid #f59e0b;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+}
+
+.card-count.danger {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    border: 2px solid #ef4444;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}
+
+@keyframes pulseWarning {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes pulseDanger {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
 .cards-display {
     display: flex;
     flex-wrap: wrap;
